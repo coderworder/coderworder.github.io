@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mini ChatGPT</title>
+  <style>
+    body { font-family: sans-serif; background: #111; color: #eee; display: flex; flex-direction: column; height: 100vh; }
+    #chat { flex: 1; overflow-y: auto; padding: 10px; }
+    .user { color: #0f0; margin: 5px 0; }
+    .bot { color: #0ff; margin: 5px 0; }
+    #input { display: flex; }
+    #msg { flex: 1; padding: 10px; background:#222; border:none; color:white; }
+    button { padding: 10px; background: crimson; color: white; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div id="chat"></div>
+  <div id="input">
+    <input id="msg" placeholder="type something...">
+    <button onclick="send()">Send</button>
+  </div>
+  <script>
+    async function send() {
+      const msgBox = document.getElementById("msg");
+      const chat = document.getElementById("chat");
+      const message = msgBox.value;
+      if (!message) return;
+
+      chat.innerHTML += `<div class="user">You: ${message}</div>`;
+      msgBox.value = "";
+
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message })
+        });
+        const data = await res.json();
+        chat.innerHTML += `<div class="bot">Bot: ${data.reply}</div>`;
+        chat.scrollTop = chat.scrollHeight;
+      } catch (err) {
+        chat.innerHTML += `<div class="bot">❌ Failed to connect</div>`;
+      }
+    }
+  </script>
+</body>
+</html>

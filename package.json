@@ -1,0 +1,9 @@
+{
+  "name": "mini-chatgpt",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev"
+  },
+  "dependencies": {}
+}
