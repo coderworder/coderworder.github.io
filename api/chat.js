@@ -6,14 +6,15 @@ export default async function handler(req, res) {
   const { message } = req.body;
 
   try {
-    const HF_MODEL = "gpt2"; // you can swap for another model
+    const HF_MODEL = "gpt2"; // try a lightweight model for testing
     const HF_API = "https://api-inference.huggingface.co/models/" + HF_MODEL;
 
     const response = await fetch(HF_API, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.HF_TOKEN}`
+        // 🔴 hardcoded token here (use your real one)
+        "Authorization": "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",
       },
       body: JSON.stringify({ inputs: message }),
     });
